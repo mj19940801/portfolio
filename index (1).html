@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>真君 | 歌い手 × MIX師</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --bg2: #111115;
+    --bg3: #18181f;
+    --surface: #1e1e28;
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(100,200,255,0.3);
+    --accent: #64c8ff;
+    --accent2: #a78bfa;
+    --text: #e8e8f0;
+    --text-muted: #6b6b80;
+    --text-dim: #3a3a50;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+    --font-body: 'Noto Sans JP', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 1000; opacity: 0.4; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3rem; background: rgba(10,10,12,0.88); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--accent); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-lang { display: flex; gap: 0.5rem; }
+  .lang-btn { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.25rem 0.6rem; border: 1px solid var(--border); background: none; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+  .lang-btn:hover, .lang-btn.active { color: var(--accent); border-color: var(--border-accent); }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(100,200,255,0.05) 0%, transparent 70%); pointer-events: none; }
+  .hero-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; animation: fadeUp 0.6s ease both; }
+  .hero-tag::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--accent); }
+  h1.hero-name { font-family: var(--font-display); font-size: clamp(5rem, 15vw, 12rem); line-height: 0.9; color: var(--text); margin-bottom: 0.3rem; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-handle { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 1.2rem; animation: fadeUp 0.6s 0.15s ease both; }
+  .hero-handle a { color: var(--accent); text-decoration: none; }
+  .hero-roles { display: flex; align-items: center; gap: 1rem; margin: 1rem 0 2rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.2s ease both; }
+  .role-badge { font-family: var(--font-mono); font-size: 0.72rem; padding: 0.4rem 1rem; border: 1px solid; letter-spacing: 0.1em; text-transform: uppercase; }
+  .role-badge.singer { border-color: var(--accent); color: var(--accent); }
+  .role-badge.mixer  { border-color: var(--accent2); color: var(--accent2); }
+  .role-divider { color: var(--text-dim); }
+  .hero-desc { max-width: 500px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.85; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.4s ease both; }
+  .btn { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 2rem; text-decoration: none; transition: all 0.2s; cursor: pointer; border: none; display: inline-block; }
+  .btn-primary { background: var(--accent); color: #000; }
+  .btn-primary:hover { background: #fff; }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border-accent); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+  .section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3.5rem; }
+  .section-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.15em; }
+  h2.section-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 0.02em; color: var(--text); line-height: 1; }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
+  .section-sep { width: 100%; height: 1px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+  .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .stat-cell { background: var(--bg2); padding: 1.5rem; text-align: center; }
+  .stat-num { font-family: var(--font-display); font-size: 2.5rem; color: var(--accent); line-height: 1; display: block; }
+  .stat-label { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-top: 0.4rem; }
+  .skills-list { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.3rem 0.8rem; background: var(--surface); border: 1px solid var(--border); color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .works-tabs { display: flex; gap: 0; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
+  .tab-btn { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; background: none; border: none; color: var(--text-muted); cursor: pointer; position: relative; transition: color 0.2s; }
+  .tab-btn.active { color: var(--accent); }
+  .tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: var(--accent); }
+  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .work-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.2s, transform 0.2s; text-decoration: none; display: block; color: inherit; }
+  .work-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
+  .work-thumb { width: 100%; aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .work-thumb-inner { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .play-icon { width: 48px; height: 48px; border: 1.5px solid rgba(100,200,255,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s; }
+  .work-card:hover .play-icon { border-color: var(--accent); }
+  .play-icon svg { fill: var(--accent); margin-left: 3px; }
+  .work-platform { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+  .work-info { padding: 1.2rem; }
+  .work-title { font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.3rem; }
+  .work-meta { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.08em; }
+  .work-tag { display: inline-block; font-family: var(--font-mono); font-size: 0.6rem; padding: 0.15rem 0.6rem; border: 1px solid; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .work-tag.singer-tag { border-color: rgba(100,200,255,0.3); color: var(--accent); }
+  .work-tag.mix-tag    { border-color: rgba(167,139,250,0.3); color: var(--accent2); }
+
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+  .price-card { background: var(--bg2); border: 1px solid var(--border); padding: 2rem; position: relative; }
+  .price-card.featured { border-color: var(--accent2); }
+  .price-card.featured::before { content: 'POPULAR'; position: absolute; top: -1px; right: 1.5rem; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.12em; padding: 0.3rem 0.8rem; background: var(--accent2); color: #000; }
+  .price-plan { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1.2rem; }
+  .price-amount { font-family: var(--font-display); font-size: 3.5rem; color: var(--text); line-height: 1; margin-bottom: 0.3rem; }
+  .price-amount span { font-size: 1rem; color: var(--text-muted); font-family: var(--font-body); font-weight: 300; }
+  .price-desc { font-size: 0.82rem; color: var(--text-muted); margin: 1rem 0 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); line-height: 1.6; }
+  .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.8rem; }
+  .price-features li { font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: flex-start; gap: 0.6rem; }
+  .price-features li::before { content: '—'; color: var(--accent); font-family: var(--font-mono); flex-shrink: 0; }
+
+  .options-table { width: 100%; border-collapse: collapse; margin-bottom: 0.8rem; border: 1px solid var(--border); }
+  .options-table th { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-align: left; padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border); background: var(--bg3); }
+  .options-table td { font-size: 0.85rem; color: var(--text-muted); padding: 0.8rem 1.2rem; border-bottom: 1px solid var(--border); }
+  .options-table tr:last-child td { border-bottom: none; }
+  .options-table .price-col { color: var(--accent); font-family: var(--font-mono); font-size: 0.8rem; }
+  .price-note { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.05em; margin-bottom: 3rem; margin-top: 0.5rem; }
+
+  .prepare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  .prepare-card { background: var(--bg2); border: 1px solid var(--border); padding: 1.8rem; }
+  .prepare-title { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .prepare-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .prepare-list li { font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 0.6rem; }
+  .prepare-list li::before { content: '–'; color: var(--text-dim); flex-shrink: 0; }
+
+  .order-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); }
+  .step-item { padding: 2rem 1.8rem; border-right: 1px solid var(--border); }
+  .step-item:last-child { border-right: none; }
+  .step-num { font-family: var(--font-display); font-size: 4rem; color: var(--text-dim); line-height: 1; margin-bottom: 0.8rem; }
+  .step-title { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+  .step-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+  .payment-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .payment-badge { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.5rem 1.2rem; border: 1px solid var(--border); color: var(--text-muted); }
+  .payment-badge.best { border-color: var(--accent); color: var(--accent); }
+
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .info-card { background: var(--bg2); border: 1px solid var(--border); padding: 1.8rem; transition: border-color 0.2s; text-decoration: none; display: block; }
+  .info-card:hover { border-color: var(--border-accent); }
+  .info-icon { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+  .info-title { font-size: 1rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+  .info-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+  .embed-card { background: var(--bg2); border: 1px solid var(--border); overflow: hidden; margin-bottom: 2rem; }
+  .embed-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); }
+  .embed-title { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .embed-link { font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent); text-decoration: none; letter-spacing: 0.05em; }
+  .embed-link:hover { color: #fff; }
+
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-text h3 { font-family: var(--font-display); font-size: 2.5rem; color: var(--text); margin-bottom: 1rem; }
+  .contact-text p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+  .contact-link { display: flex; align-items: center; gap: 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; padding: 0.8rem 1rem; border: 1px solid var(--border); transition: all 0.2s; }
+  .contact-link:hover { color: var(--accent); border-color: var(--border-accent); }
+  .contact-link-icon { width: 1.2rem; text-align: center; color: var(--accent); }
+  .form-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; display: block; margin-bottom: 0.4rem; }
+  .form-input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 0.85rem; padding: 0.7rem 0.9rem; outline: none; transition: border-color 0.2s; }
+  .form-input:focus { border-color: var(--border-accent); }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; }
+  .footer-copy { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.08em; }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--accent); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-wrapper, .prepare-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .order-steps { grid-template-columns: 1fr 1fr; }
+    .step-item:nth-child(2) { border-right: none; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">真君</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-lang">
+    <button class="lang-btn active" onclick="setLang('ja',this)">JA</button>
+    <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+    <button class="lang-btn" onclick="setLang('ko',this)">KO</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="hero-tag">Singer &amp; Vocal MIX Engineer</p>
+  <h1 class="hero-name">真君</h1>
+  <p class="hero-handle"><a href="https://x.com/4092_4092" target="_blank">@4092_4092</a> &nbsp;·&nbsp; X (Twitter)</p>
+  <div class="hero-roles">
+    <span class="role-badge singer">歌い手</span>
+    <span class="role-divider">×</span>
+    <span class="role-badge mixer">MIX師</span>
+  </div>
+  <p class="hero-desc" id="hero-desc">
+    歌う側と混ぜる側、両方の視点を持つクリエイター。<br>
+    ミラティブで活動しながら、歌ってみた投稿・ボーカルMIX依頼を受付中。<br>
+    録音の仕方がわからない方も、お気軽にXへDMください。
+  </p>
+  <div class="hero-cta">
+    <a href="#works" class="btn btn-primary">作品を見る</a>
+    <a href="#pricing" class="btn btn-outline">依頼する</a>
+  </div>
+</div>
+
+<div class="section-sep"></div>
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">ABOUT</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>歌い手として活動しながら、<strong>ボーカルMIX師</strong>としても多数の作品に携わっています。</p>
+      <p>「歌う側の気持ち」を知っているからこそ、依頼者の声の魅力を最大限に引き出すMIXができます。録音のやり方・動画投稿の方法がわからない方も気軽にご相談ください。</p>
+      <p>日本語 / English / 한국어 対応可能。中文対応準備中。</p>
+      <div class="skills-list">
+        <span class="skill-tag">Vocal MIX</span>
+        <span class="skill-tag">Tuning</span>
+        <span class="skill-tag">Mastering</span>
+        <span class="skill-tag">歌ってみた</span>
+        <span class="skill-tag">Cubase 12 Pro</span>
+        <span class="skill-tag">Melodyne 5</span>
+        <span class="skill-tag">Pro-Q3</span>
+        <span class="skill-tag">and more</span>
+        <span class="skill-tag">多言語対応</span>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-cell">
+        <span class="stat-num">3<span style="font-size:1rem;">〜5日</span></span>
+        <span class="stat-label">通常納品</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">3<span style="font-size:1rem;">言語</span></span>
+        <span class="stat-label">対応言語</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">¥1,500<span style="font-size:0.8rem;">〜</span></span>
+        <span class="stat-label">最安プラン</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-num">DM<span style="font-size:1rem;"> 可</span></span>
+        <span class="stat-label">相談無料</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+<section id="works">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">WORKS</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="works-tabs">
+    <button class="tab-btn active" onclick="switchTab('all',this)">ALL</button>
+    <button class="tab-btn" onclick="switchTab('singing',this)">歌ってみた</button>
+    <button class="tab-btn" onclick="switchTab('mix',this)">MIX実績</button>
+  </div>
+  <div class="works-grid" id="works-grid"></div>
+  <p style="margin-top:1.5rem;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);">
+    ※ MIX実績は依頼主の許可をいただいたものを掲載。その他の実績は
+    <a href="https://x.com/4092_4092" target="_blank" style="color:var(--accent);">X (@4092_4092)</a> でご確認ください。
+  </p>
+</section>
+
+<div class="section-sep"></div>
+<section id="pricing">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">PRICING</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <p class="price-plan">SHORT</p>
+      <p class="price-amount">¥1,500<span>/曲</span></p>
+      <p class="price-desc">サビのみMIX。SNS用クリップや試聴版に最適。</p>
+      <ul class="price-features">
+        <li>サビのみMIX</li>
+        <li>ノイズ処理</li>
+        <li>ピッチ・タイミング修正</li>
+        <li>エフェクト処理・マスタリング</li>
+      </ul>
+      <a href="https://x.com/4092_4092" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">XでDM</a>
+    </div>
+    <div class="price-card featured">
+      <p class="price-plan">ONE CHORUS</p>
+      <p class="price-amount">¥3,000<span>/曲</span></p>
+      <p class="price-desc">1番または2番のみMIX。1コーラスMVや確認用に。</p>
+      <ul class="price-features">
+        <li>1or2番のみMIX</li>
+        <li>ノイズ処理</li>
+        <li>ピッチ・タイミング修正</li>
+        <li>ハモリ生成（要望あれば）</li>
+        <li>エフェクト処理・マスタリング</li>
+      </ul>
+      <a href="https://x.com/4092_4092" target="_blank" class="btn btn-primary" style="display:block;text-align:center;">XでDM</a>
+    </div>
+    <div class="price-card">
+      <p class="price-plan">FULL</p>
+      <p class="price-amount">¥5,000<span>/曲</span></p>
+      <p class="price-desc">フルコーラス完全版。YouTube・歌ってみた投稿向け。</p>
+      <ul class="price-features">
+        <li>フルMIX</li>
+        <li>ノイズ処理</li>
+        <li>ピッチ・タイミング修正</li>
+        <li>ハモリ生成（要望あれば）</li>
+        <li>エフェクト処理・マスタリング</li>
+      </ul>
+      <a href="https://x.com/4092_4092" target="_blank" class="btn btn-outline" style="display:block;text-align:center;">XでDM</a>
+    </div>
+  </div>
+
+  <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem;">Options</p>
+  <table class="options-table">
+    <thead><tr><th>オプション</th><th>料金</th><th>備考</th></tr></thead>
+    <tbody>
+      <tr><td>トラック差替</td><td class="price-col">¥1,000</td><td style="font-size:0.75rem;color:var(--text-dim);">作業前は無料</td></tr>
+      <tr><td>通話しながら修正</td><td class="price-col">¥1,000</td><td></td></tr>
+      <tr><td>動画エンコード</td><td class="price-col">無料</td><td></td></tr>
+      <tr><td>納品後の修正</td><td class="price-col">¥1,000〜</td><td style="font-size:0.75rem;color:var(--text-dim);">内容による</td></tr>
+      <tr><td>その他</td><td class="price-col">相談</td><td></td></tr>
+    </tbody>
+  </table>
+  <p class="price-note">※ 複数人コラボは 料金 × 人数。作業開始後の返金は対応しかねます。ピッチ・タイミングのずれが大きい場合は再録をお願いすることがあります。</p>
+
+  <div class="section-header" style="margin-top:3rem;">
+    <span class="section-num" style="color:var(--text-muted);">→</span>
+    <h2 class="section-title" style="font-size:2rem;">ご用意いただくもの</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="prepare-grid">
+    <div class="prepare-card">
+      <p class="prepare-title">必須素材</p>
+      <ul class="prepare-list">
+        <li>楽曲名・BPM・キー等の基本情報</li>
+        <li>録音した音源</li>
+        <li>inst音源</li>
+        <li>参考音源（あれば）</li>
+      </ul>
+    </div>
+    <div class="prepare-card">
+      <p class="prepare-title">録音規格（推奨）</p>
+      <ul class="prepare-list">
+        <li>16bit or 24bit</li>
+        <li>44.1kHz or 48kHz</li>
+        <li>モノラル・WAV形式（mp3は劣化あり）</li>
+        <li>トラックは頭出しでお願いします</li>
+      </ul>
+    </div>
+  </div>
+  <div style="padding:1.2rem 1.5rem;border:1px solid var(--border);background:var(--bg2);margin-bottom:3rem;font-size:0.85rem;color:var(--text-muted);">
+    録音の仕方がわからない・何が必要かわからない方も、<strong style="color:var(--text);">お気軽にXへDMください。ご相談だけでもOKです。</strong>
+  </div>
+
+  <div class="section-header">
+    <span class="section-num" style="color:var(--text-muted);">→</span>
+    <h2 class="section-title" style="font-size:2rem;">依頼の流れ</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="order-steps">
+    <div class="step-item"><div class="step-num">01</div><div class="step-title">XへDM</div><div class="step-desc">@4092_4092へDM。ご相談だけでも歓迎です。</div></div>
+    <div class="step-item"><div class="step-num">02</div><div class="step-title">素材の送付</div><div class="step-desc">ボーカル音源・inst・参考音源等をお送りください。</div></div>
+    <div class="step-item"><div class="step-num">03</div><div class="step-title">MIX作業</div><div class="step-desc">通常3〜5営業日でお届け。</div></div>
+    <div class="step-item"><div class="step-num">04</div><div class="step-title">修正・納品</div><div class="step-desc">確認後、修正対応して最終ファイルを納品。</div></div>
+  </div>
+
+  <div class="section-header" style="margin-top:3rem;">
+    <span class="section-num" style="color:var(--text-muted);">→</span>
+    <h2 class="section-title" style="font-size:2rem;">支払方法</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="payment-row">
+    <span class="payment-badge best">銀行振込（一番うれしい）</span>
+    <span class="payment-badge">PayPay</span>
+    <span class="payment-badge">PayPal</span>
+  </div>
+  <p id="paypal-note" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);margin-top:-0.5rem;"></p>
+</section>
+
+<div class="section-sep"></div>
+<section id="tools">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">TOOLS</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="embed-card">
+    <div class="embed-header">
+      <span class="embed-title">Vocal MIX師検定</span>
+      <a href="https://mj19940801.github.io/Vocal-MIX-Quiz/" target="_blank" class="embed-link">別タブで開く →</a>
+    </div>
+    <iframe src="https://mj19940801.github.io/Vocal-MIX-Quiz/" width="100%" height="500" style="border:none;display:block;background:#000;" loading="lazy" title="Vocal MIX師検定"></iframe>
+  </div>
+
+  <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Useful Info</p>
+  <div class="info-grid">
+    <a href="https://note.com/4092_4092/n/nab1be98efc4e" target="_blank" class="info-card">
+      <div class="info-icon">TIP — YouTube</div>
+      <div class="info-title">YouTube予約投稿を完全自動化</div>
+      <div class="info-desc">Googleスプレッドシート×Pythonで毎日YouTube動画をアップ。歌ってみた・解説動画の定期投稿をこれで解決。</div>
+      <p id="yt-note" style="margin-top:0.8rem;font-family:var(--font-mono);font-size:0.62rem;color:var(--text-dim);">※ YouTube自動投稿ツールはPC版限定です。</p>
+    </a>
+    <a href="https://note.com/4092_4092" target="_blank" class="info-card">
+      <div class="info-icon">TIP — 録音</div>
+      <div class="info-title">MIX師が「助かる」録音のコツ</div>
+      <div class="info-desc">素材の録り方でMIXクオリティは大きく変わります。MIX師目線でまとめた実践的なガイドです。</div>
+    </a>
+    <a href="https://x.com/4092_4092" target="_blank" class="info-card">
+      <div class="info-icon">TIP — 機材</div>
+      <div class="info-title">機材・周辺情報はXで発信中</div>
+      <div class="info-desc">マイク・オーディオI/Fの選び方、機材セール情報など随時Xで投稿しています。</div>
+    </a>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+<section id="contact">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">CONTACT</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-text">
+      <h3>依頼・相談</h3>
+      <p id="contact-desc">MIX依頼・コラボ・その他お問い合わせはこちら。録音の仕方がわからない方のご相談も歓迎です。</p>
+      <div class="contact-links">
+        <a href="https://x.com/4092_4092" target="_blank" class="contact-link">
+          <span class="contact-link-icon">𝕏</span>
+          <span>@4092_4092（メイン）</span>
+        </a>
+        <a href="https://note.com/4092_4092" target="_blank" class="contact-link">
+          <span class="contact-link-icon">n</span>
+          <span>note.com/4092_4092</span>
+        </a>
+      </div>
+      <p style="margin-top:1.5rem;font-family:var(--font-mono);font-size:0.68rem;color:var(--text-muted);line-height:1.8;">
+        English / 한국어 でのご連絡も歓迎です。
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+        <div><label class="form-label">名前 / ハンドル名</label><input type="text" class="form-input" placeholder="真君"></div>
+        <div><label class="form-label">X ID / 連絡先</label><input type="text" class="form-input" placeholder="@4092_4092"></div>
+      </div>
+      <div>
+        <label class="form-label">ご依頼の種類</label>
+        <select class="form-input" style="cursor:pointer;">
+          <option value="">選択してください</option>
+          <option>ボーカルMIX SHORT（¥1,500）</option>
+          <option>ボーカルMIX ONE CHORUS（¥3,000）</option>
+          <option>ボーカルMIX FULL（¥5,000）</option>
+          <option>相談・その他</option>
+        </select>
+      </div>
+      <div><label class="form-label">メッセージ</label><textarea id="form-msg" rows="5" class="form-input" placeholder="楽曲名・ジャンル・ご要望などをご記入ください"></textarea></div>
+      <p id="form-note" style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);">※ 実際のご依頼はXのDMにてお願いします。</p>
+      <a id="dm-btn" href="https://x.com/4092_4092" target="_blank" class="btn btn-primary" style="align-self:flex-start;">X でDMする</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-copy">© 2025 真君 (@4092_4092). All rights reserved.</p>
+  <div class="footer-links">
+    <a href="https://x.com/4092_4092" target="_blank">X</a>
+    <a href="https://note.com/4092_4092" target="_blank">note</a>
+    <a href="https://mj19940801.github.io/Vocal-MIX-Quiz/" target="_blank">MIX検定</a>
+  </div>
+</footer>
+
+<script>
+const worksData = [
+  { type:'singing', title:'【ミラティブライバー10人でコラボ】Blessing【歌ってみた】', meta:'YouTube · コラボ歌ってみた · びのち主催', platform:'YouTube', url:'https://www.youtube.com/@4092_4092' },
+  { type:'singing', title:'オレンジ / SPYAIR（歌ってみた）', meta:'YouTube · Covered by 真君', platform:'YouTube', url:'https://www.youtube.com/@4092_4092' },
+  { type:'mix',     title:'MIX担当実績 A', meta:'ボーカルMIX', platform:'YouTube', url:'https://x.com/4092_4092' },
+  { type:'singing', title:'歌ってみた B', meta:'YouTube', platform:'YouTube', url:'https://www.youtube.com/@4092_4092' },
+  { type:'mix',     title:'MIX担当実績 B', meta:'ボーカルMIX', platform:'niconico', url:'https://x.com/4092_4092' },
+];
+
+const workTagLabel = {
+  singing: { ja:'歌ってみた', en:'Cover Song', ko:'우타테미타' },
+  mix:     { ja:'MIX実績',   en:'MIX Work',   ko:'MIX 실적' }
+};
+
+let currentLang = 'ja';
+
+function renderWorks(filter) {
+  const grid = document.getElementById('works-grid');
+  const items = filter === 'all' ? worksData : worksData.filter(w => w.type === filter);
+  grid.innerHTML = items.map(w => `
+    <a class="work-card" href="${w.url}" target="_blank">
+      <div class="work-thumb">
+        <div class="work-thumb-inner">
+          <div class="play-icon"><svg width="14" height="16" viewBox="0 0 14 16"><path d="M0 0L14 8L0 16V0Z"/></svg></div>
+          <span class="work-platform">${w.platform}</span>
+        </div>
+      </div>
+      <div class="work-info">
+        <span class="work-tag ${w.type==='singing'?'singer-tag':'mix-tag'}">${workTagLabel[w.type][currentLang]}</span>
+        <div class="work-title">${w.title}</div>
+        <div class="work-meta">${w.meta}</div>
+      </div>
+    </a>
+  `).join('');
+}
+
+function switchTab(filter, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderWorks(filter);
+}
+
+const i18n = {
+  ja: {
+    heroDesc: '歌う側と混ぜる側、両方の視点を持つクリエイター。<br>ミラティブで活動しながら、歌ってみた投稿・ボーカルMIX依頼を受付中。<br>録音の仕方がわからない方も、お気軽にXへDMください。',
+    contactDesc: 'MIX依頼・コラボ・その他お問い合わせはこちら。録音の仕方がわからない方のご相談も歓迎です。',
+    paypalNote: '',
+    ytNote: '※ YouTube自動投稿ツールはPC版限定です。',
+    dmBtn: 'X でDMする',
+    formMsg: '楽曲名・ジャンル・ご要望などをご記入ください',
+    formNote: '※ 実際のご依頼はXのDMにてお願いします。',
+  },
+  en: {
+    heroDesc: 'A creator with both singer & mix engineer perspectives.<br>Active on Mirrativ. Accepting vocal MIX requests.<br>Feel free to DM on X — even if you\'re unsure about recording.',
+    contactDesc: 'For MIX requests, collabs, or any inquiries. Feel free to reach out even if it\'s just for a consultation.',
+    paypalNote: '※ For overseas payments, PayPal is recommended.',
+    ytNote: '※ PC only.',
+    dmBtn: 'DM on X',
+    formMsg: 'Song title, genre, or any requests...',
+    formNote: '※ Please contact via X DM for actual requests.',
+  },
+  ko: {
+    heroDesc: '보컬과 믹스 엔지니어 양쪽의 시각을 가진 크리에이터입니다.<br>미라티브에서 활동 중이며, 보컬 MIX 의뢰를 접수하고 있습니다.<br>녹음 방법을 모르는 분도 편하게 X로 DM 주세요.',
+    contactDesc: 'MIX 의뢰, 콜라보, 기타 문의는 여기로. 상담만이라도 언제든지 환영이에요.',
+    paypalNote: '※ 일본으로 송금하시는 경우 PayPal을 추천드립니다.',
+    ytNote: '※ PC 전용입니다.',
+    dmBtn: 'X로 DM하기',
+    formMsg: '곡 제목, 장르, 요청 사항을 적어 주세요.',
+    formNote: '※ 실제 의뢰는 X DM으로 부탁드립니다.',
+  }
+};
+
+function setLang(lang, btn) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const t = i18n[lang];
+  document.getElementById('hero-desc').innerHTML = t.heroDesc;
+  const cd = document.getElementById('contact-desc');
+  if (cd) cd.innerHTML = t.contactDesc;
+  const dmBtn = document.getElementById('dm-btn');
+  if (dmBtn) dmBtn.textContent = t.dmBtn;
+  const formMsg = document.getElementById('form-msg');
+  if (formMsg) formMsg.placeholder = t.formMsg;
+  const formNote = document.getElementById('form-note');
+  if (formNote) formNote.textContent = t.formNote;
+  const ppNote = document.getElementById('paypal-note');
+  if (ppNote) ppNote.textContent = t.paypalNote;
+  const ytNote = document.getElementById('yt-note');
+  if (ytNote) ytNote.textContent = t.ytNote;
+  renderWorks('all');
+  document.querySelectorAll('.tab-btn').forEach((b,i) => i===0 ? b.classList.add('active') : b.classList.remove('active'));
+}
+
+renderWorks('all');
+</script>
+</body>
+</html>
